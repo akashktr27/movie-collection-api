@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .endpoint {
+            margin-bottom: 20px;
+        }
+        .endpoint h2 {
+            margin-bottom: 5px;
+        }
+        .endpoint code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Documentation</h1>
+        <div class="endpoint">
+            <h2>GET /health</h2>
+            <p>check the health of server</p>
+        </div>
+        <div class="endpoint">
+            <h2>GET /register</h2>
+            <p>Returns a access token for auth</p>
+            <p> body: {
+    "username": "admin",
+    "password": "admin"
+}</p>
+        </div>
+        <div class="endpoint">
+            <h2>GET /movies</h2>
+            <p>Returns a list of movies with pagination. Requires authentication.</p>
+        </div>
+        <div class="endpoint">
+            <h2>Get /collection</h2>
+            <p>Returns a list of collection. Requires authentication.</p>
+        </div>
+        <div class="endpoint">
+            <h2>Post /collection</h2>
+            <p>Create collection and returns uuid as response. Requires authentication.</p>
+            <p>body: {
+    "title": "some title6",
+    "description": "some desc5",
+    "movies": [
+        {
+            "title": "Follow That Camel",
+            "description": "Bertram Oliphant West (also known as Bo West) wants to clear his unjustly smeared reputation. He joins the Foreign Legion, with Simpson his manservant in tow. But the fort they get posted to is full of eccentric legionnaires, and there is trouble brewing with the locals too. Unbeknown to Bo, his lady love has followed him in disguise...",
+            "genres": "Comedy",
+            "uuid": "73df2bf9-7aaf-4f9e-a742-17fbbce47cbf"
+        }
+    ]
+}</p>
+        </div>
+        <div class="endpoint">
+            <h2>GET /collection/{uuid}</h2>
+            <p>Returns details of a specific collection identified by its uuid</p>
+        </div>
+        <div class="endpoint">
+            <h2>PUT /collection/{uuid}</h2>
+            <p>Updates a specific collection identified by its uuid. where you can update movies, title and
+                description of collection. Requires authentication.</p>
+            <p>body: {
+    "uuid": "be8c6663-11b5-42cd-8b5b-4ab7473a1506",
+    "title": "some title5_update_",
+    "description": "some desc5_update",
+    "movies": [
+
+    ]
+}</p>
+        </div>
+        <div class="endpoint">
+            <h2>DELETE /collection/{uuid}</h2>
+            <p>Deletes a specific collection identified by its ID. Requires authentication.</p>
+        </div>
+
+        <div class="endpoint">
+            <h2>GET /request-count</h2>
+            <p>Returns the number of request received by server . Requires authentication.</p>
+        </div>
+        <div class="endpoint">
+            <h2>POST /request-count</h2>
+            <p>Set the count to zero. Requires authentication.</p>
+        </div>
+    </div>
+</body>
+</html>
