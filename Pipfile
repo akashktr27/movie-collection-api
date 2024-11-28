@@ -19,6 +19,7 @@ sqlparse = "==0.5.1"
 typing-extensions = "==4.12.2"
 urllib3 = "==2.2.2"
 factory-boy = "==3.3.1"
+behave = "*"
 
 [dev-packages]
 

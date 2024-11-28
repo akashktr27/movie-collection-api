@@ -1,0 +1,11 @@
+{
+    "title": "",
+    "description": "integration test description",
+    "movies": [
+        {
+            "title": "En Büyük Şaban",
+            "description": "A good man trys to help a blind girl to see again but he doesn't have enough money for the operation.",
+            "uuid": ""
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+tests/__pycache__/
+.env
+tests/unittest/__pycache__/
+.idea
+tests/integration/behave_test.log
+collection/__pycache__/
+ collection/migrations/__pycache__/

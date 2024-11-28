@@ -29,5 +29,5 @@ user:
 test:
 	python3 manage.py test
 
-behave:
-	tests/integration
+
+

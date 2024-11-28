@@ -35,7 +35,6 @@ class CollectionView(APIView):
 
     def get(self, request):
         objs = Collection.objects.all()
-        print(objs)
         snip_obj = CollectionSerializer(objs, many=True)
         data = {
             "collections": snip_obj.data,
@@ -48,10 +47,14 @@ class CollectionView(APIView):
         return Response(output)
 
     def post(self, request, format=None):
+        print(request.data)
+        # data = request.data.pop("movies")
         snip_obj = CollectionSerializer(data=request.data)
+        print(snip_obj.is_valid())
         if snip_obj.is_valid():
             snip_obj.save()
-            return Response(snip_obj.data.get('uuid'), status=status.HTTP_201_CREATED)
+            response = {"collection_uuid": snip_obj.data.get('uuid') }
+            return Response(response, status=status.HTTP_201_CREATED)
         return Response(snip_obj.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -81,7 +84,7 @@ class Collection_detail(APIView):
     def put(self, request, uuid):
         obj = self.get_object(uuid)
         print(request.data)
-        snip_obj = CollectionSerializer(obj, data=request.data, detail=True )
+        snip_obj = CollectionSerializer(obj, data=request.data, detail=True)
         if snip_obj.is_valid():
             snip_obj.save()
             return Response(snip_obj.data)

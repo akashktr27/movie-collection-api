@@ -78,6 +78,57 @@ def step_when_request_health_check(context):
     context.response = requests.get(url=endpoint, headers=headers)
     assert context.response.status_code == 200, "Failed to authenticate and retrieve token"
 
+
+@when("I request get method of detail collection endpoint with valid token")
+def collection_detail(context):
+
+    collection_uuid = context.shared_data.get("collection_uuid")
+    context.logger.info(collection_uuid)
+    endpoint = f"{context.base_url}/collection/{collection_uuid}"
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": f"Bearer {context.token}"
+    }
+    context.response = requests.get(url=endpoint, headers=headers)
+    assert context.response.status_code == 200, "Failed to authenticate and retrieve token"
+
+@when("I request get method of detail collection endpoint with invalid token")
+def collection_detail(context):
+
+    collection_uuid = context.shared_data.get("collection_uuid")
+    context.logger.info(collection_uuid)
+    endpoint = f"{context.base_url}/collection/{collection_uuid}"
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": f"Bearer {context.invalid_token}"
+    }
+    context.response = requests.get(url=endpoint, headers=headers)
+
+@when("I request post method of collection endpoint with valid token")
+def collection_post_validkey(context):
+    endpoint = f"{context.base_url}/collection"
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": f"Bearer {context.token}"
+    }
+    payload = json.dumps(context.collection)
+    context.response = requests.post(url=endpoint, headers=headers, data=payload)
+    context.logger.info(context.response)
+    context.collection_uuid = context.response.json()["collection_uuid"]
+    context.shared_data["collection_uuid"] = context.collection_uuid  # Save globally
+
+    assert context.response.status_code == 201, "Failed to authenticate and retrieve token"
+
+@when("I request post method of collection endpoint with invalid token")
+def collection_post_invalidkey(context):
+    endpoint = f"{context.base_url}/collection"
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": f"Bearer {context.invalid_token}"
+    }
+    payload = json.dumps(context.collection)
+    context.response = requests.post(url=endpoint, headers=headers, data=payload)
+
 @when("I request the collection endpoint with invalid token")
 def step_when_request_health_check(context):
     endpoint = f"{context.base_url}/collection"
@@ -88,18 +139,11 @@ def step_when_request_health_check(context):
     context.response = requests.get(url=endpoint, headers=headers)
 
 
+@then('the response status should be {expected_status_code:d}')
+def step_then_response_status(context, expected_status_code):
+    assert context.response.status_code == expected_status_code, \
+        f"Expected {expected_status_code}, but got {context.response.status_code}"
 
-@then("the response status should be 200")
-def step_then_response_status_200(context):
-    assert context.response.status_code == 200, f"Expected 200, got {context.response.status_code}"
-
-@then("the response status should be 400")
-def step_then_response_status_400(context):
-    assert context.response.status_code == 400, f"Expected 400, got {context.response.status_code}"
-
-@then("the response status should be 401")
-def step_then_response_status_400(context):
-    assert context.response.status_code == 401, f"Expected 401, got {context.response.status_code}"
 @then("the response body should indicate the service is ok")
 def step_then_response_body(context):
     response_json = context.response.json()

@@ -45,3 +45,49 @@ Feature: Test Onefin Assesment API
       When I request the collection endpoint with invalid token
       Then the response status should be 401
       And the response body should contain the keys ["detail", "code", "messages"]
+
+  Scenario:
+      Given the API is running
+      When I request the token endpoint with valid credentials
+      When I request post method of collection endpoint with valid token
+      Then the response status should be 201
+      And the response body should contain the keys ["collection_uuid"]
+      When I request get method of detail collection endpoint with valid token
+      Then the response status should be 200
+      And the response body should contain the keys ["uuid", "title", "description", "movies"]
+
+
+  Scenario:
+      Given the API is running
+      When I request the invalid token
+      When I request post method of collection endpoint with invalid token
+      Then the response status should be 401
+      And the response body should contain the keys ["detail", "code", "messages"]
+
+  Scenario:
+      Given the API is running
+      When I request the token endpoint with valid credentials
+      When I request get method of detail collection endpoint with valid token
+      Then the response status should be 200
+      And the response body should contain the keys ["uuid", "title", "description", "movies"]
+
+  Scenario:
+      Given the API is running
+      When I request the invalid token
+      When I request get method of detail collection endpoint with invalid token
+      Then the response status should be 401
+      And the response body should contain the keys ["detail", "code", "messages"]
+
+  Scenario:
+      Given the API is running
+      When I request the token endpoint with valid credentials
+      When I request put method of detail collection endpoint with valid token
+      Then the response status should be 200
+      And the response body should contain the keys ["uuid", "title", "description", "movies"]
+
+  Scenario:
+      Given the API is running
+      When I request the invalid token
+      When I request put method of detail collection endpoint with invalid token
+      Then the response status should be 401
+      And the response body should contain the keys ["detail", "code", "messages"]
