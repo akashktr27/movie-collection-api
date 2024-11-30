@@ -1,12 +1,9 @@
 import os
 from django.http import JsonResponse
-from django.views import View
 from .middleware import RequestCountMiddleware
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from requests.auth import HTTPBasicAuth
 from rest_framework.views import APIView
 from .utils import *
-from .models import *
 from .serializers import *
 from collections import Counter
 # Create your views here.
@@ -47,10 +44,7 @@ class CollectionView(APIView):
         return Response(output)
 
     def post(self, request, format=None):
-        print(request.data)
-        # data = request.data.pop("movies")
         snip_obj = CollectionSerializer(data=request.data)
-        print(snip_obj.is_valid())
         if snip_obj.is_valid():
             snip_obj.save()
             response = {"collection_uuid": snip_obj.data.get('uuid') }
@@ -75,15 +69,12 @@ class Collection_detail(APIView):
             raise Http404
 
     def get(self, request, uuid):
-        print('here')
         obj = self.get_object(uuid)
-        print(obj)
         snip_obj = CollectionSerializer(obj,  detail=True)
         return Response(snip_obj.data)
 
     def put(self, request, uuid):
         obj = self.get_object(uuid)
-        print(request.data)
         snip_obj = CollectionSerializer(obj, data=request.data, detail=True)
         if snip_obj.is_valid():
             snip_obj.save()

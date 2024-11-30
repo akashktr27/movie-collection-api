@@ -18,8 +18,6 @@ class TokenPairView(TokenObtainPairView):
             return Response({"detail": str(e)}, status=400)
 
         tokens = serializer.validated_data
-
-        # Return only the access token
         return Response({
             'access': tokens.get('access'),
         })

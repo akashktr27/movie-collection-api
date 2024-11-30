@@ -15,7 +15,6 @@ class ThirdPartyAPIClient:
         url = f"{self.base_url}?page={page}"
         try:
             for _ in range(self.max_retries):
-                print('you win')
                 response = requests.get(url, auth=self.auth, verify=False)
                 if response.status_code == 200:
                     data = response.json()

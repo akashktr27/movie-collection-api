@@ -8,12 +8,8 @@ class MovieModelSerialiser(serializers.ModelSerializer):
         model = Movie
         fields = ['uuid', 'title', 'description', 'genres']
 
-
-
-
-
 class CollectionSerializer(serializers.ModelSerializer):
-    movies = MovieModelSerialiser(many=True)  # Nested serializer to handle Movie validation
+    movies = MovieModelSerialiser(many=True)
 
     def __init__(self, *args, **kwargs):
         self.detail = kwargs.pop('detail', False)
@@ -33,19 +29,15 @@ class CollectionSerializer(serializers.ModelSerializer):
         return movies
 
     def validate(self, data):
-        print('here in validate')
         if Collection.objects.filter(title=data['title']).exists():
                 raise serializers.ValidationError("A collection with this title already exists.")
         return data
 
 
     def create(self, validated_data):
-        print('jjjjjjj')
         movies_data = validated_data.pop('movies')
-
         with transaction.atomic():
             collection = Collection.objects.create(**validated_data)
-            print("here")
             for movie_data in movies_data:
                 movie_instance, created = Movie.objects.get_or_create(**movie_data)
                 collection.movies.add(movie_instance)

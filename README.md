@@ -22,14 +22,17 @@ Need .env file which should contain url, username and password of the movie API.
 ### `make commands to install using Pipfile`
 - make env => Creates an virtual environment
 - make install => install the necessary dependencies using Pipfile
-- make run => run the server
-- make test => run all the unit tests to avoid ruining existing feature
 
 ### `make commands to install using requirements.txt`
 - make renv => Creates an virtual environment
 - make rinstall => install the necessary dependencies using Pipfile
 - activate the environment using "source venv/bin/activate"
+
+
+### `make commands to check, run and test server`
+
 - make run => run the server
+- make check => check the project condition
+- make user => create superuser in terminal
 - make test => run all the unit tests to avoid ruining existing feature
-
-
+- make integration => run integration tests using behave framework.

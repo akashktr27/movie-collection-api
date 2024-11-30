@@ -31,7 +31,7 @@ DEBUG = False
 if DEBUG:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 else:
-    ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1']
+    ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']
 
 # Application definition
 

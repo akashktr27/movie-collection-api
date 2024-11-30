@@ -20,7 +20,7 @@ class Custom404Middleware:
 from django.utils.deprecation import MiddlewareMixin
 
 class RequestCountMiddleware(MiddlewareMixin):
-    request_count = 0  # Class-level variable to store request count
+    request_count = 0
 
     @classmethod
     def get_count(cls):
@@ -32,6 +32,5 @@ class RequestCountMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
         RequestCountMiddleware.request_count += 1
-        print(f"Request count: {RequestCountMiddleware.request_count}")
         request.request_count = RequestCountMiddleware.request_count
 
