@@ -21,7 +21,8 @@ def read_json_file(file_name):
         with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
             data['title'] = generate_random_text(10)
-            data['movies'][0]['uuid'] = generate_uuid()
+            for movie in data['movies']:
+                movie['uuid'] = generate_uuid()
 
         return data
     except FileNotFoundError:
@@ -37,10 +38,10 @@ def read_json_file(file_name):
 def before_all(context):
     context.shared_data = {}
     print("setting up resources before all tests")
-    log_file_path = os.path.join(os.getcwd(), "behave_test.log")
+    log_file_path = os.path.join(os.getcwd(), "integraton_test.log")
 
     #set up logger and handle file
-    logger = logging.getLogger("behave_logger")
+    logger = logging.getLogger("onefin API testing")
     logger.setLevel(logging.DEBUG)
     file_handler = logging.FileHandler(log_file_path)
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -51,7 +52,9 @@ def before_all(context):
 
     context.logger = logger
     data = read_json_file("payload.json")
+    put_data = read_json_file("put_payload.json")
     context.collection = data
+    context.put_payload = put_data
 
 def after_all(context):
     print("Tearing all resources after all tests")

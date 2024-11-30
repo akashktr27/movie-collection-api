@@ -119,6 +119,65 @@ def collection_post_validkey(context):
 
     assert context.response.status_code == 201, "Failed to authenticate and retrieve token"
 
+@when("I request put method of detail collection endpoint with valid token")
+def put_method_valid_token(context):
+    collection_uuid = context.shared_data.get("collection_uuid")
+    endpoint = f"{context.base_url}/collection/{collection_uuid}"
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": f"Bearer {context.token}"
+    }
+    put_payload = json.dumps(context.put_payload)
+    context.put_payload = put_payload
+    context.response = requests.put(url=endpoint, headers=headers, data=put_payload)
+    assert context.response.status_code == 200, "Failed to authenticate and retrieve token"
+
+@when("I request put method of detail collection endpoint with invalid token")
+def put_method_invalid_token(context):
+    collection_uuid = context.shared_data.get("collection_uuid")
+    endpoint = f"{context.base_url}/collection/{collection_uuid}"
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": f"Bearer {context.invalid_token}"
+    }
+    put_payload = json.dumps(context.put_payload)
+    context.put_payload = put_payload
+    context.response = requests.put(url=endpoint, headers=headers, data=put_payload)
+    assert context.response.status_code == 401, "Failed to authenticate and retrieve token"
+
+@when("I request delete method of detail collection endpoint with invalid token")
+def put_method_invalid_token(context):
+    collection_uuid = context.shared_data.get("collection_uuid")
+    endpoint = f"{context.base_url}/collection/{collection_uuid}"
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": f"Bearer {context.invalid_token}"
+    }
+    context.response = requests.delete(url=endpoint, headers=headers)
+    assert context.response.status_code == 401, "Failed to authenticate and retrieve token"
+
+@when("I request delete method of detail collection endpoint with valid token")
+def put_method_invalid_token(context):
+    collection_uuid = context.shared_data.get("collection_uuid")
+    endpoint = f"{context.base_url}/collection/{collection_uuid}"
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": f"Bearer {context.token}"
+    }
+    context.response = requests.delete(url=endpoint, headers=headers)
+    assert context.response.status_code == 204, "Failed to authenticate and retrieve token"
+
+@then("verify put request response")
+def verify_put_request(context):
+    payload = context.put_payload
+    response = context.response.json()
+    payload = json.loads(payload)
+    assert response["description"] == payload["description"], "description does not match"
+    movies_response = [movie["title"] for movie in response["movies"]]
+    movies_payload = [movie["title"] for movie in payload["movies"]]
+    assert all(movie in movies_response for movie in movies_payload), "Not all movies are updated"
+
+
 @when("I request post method of collection endpoint with invalid token")
 def collection_post_invalidkey(context):
     endpoint = f"{context.base_url}/collection"

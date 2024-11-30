@@ -1,0 +1,16 @@
+{
+    "title": "",
+    "description": "updated integration test description",
+    "movies": [
+        {
+            "title": "movie title 1",
+            "description": "description 1",
+            "uuid": ""
+        },
+        {
+            "title": "movie title 2",
+            "description": "description 2",
+            "uuid": ""
+        }
+    ]
+}
